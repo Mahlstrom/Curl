@@ -1,15 +1,7 @@
 <?php
-/**
- * @authors Jordan Hall <nukezilla@hotmail.co.uk> & JokerHacker
- * @Acknowledge S.C. Chen <http://sourceforge.net/projects/simplehtmldom/>
- * @Contributions Bennett Treptow <Upload class>
- * @version 0.1
- * @copyright 2012 SimplexPHP
- */
+namespace mahlstrom\curl;
 
-namespace mahlstrom\Curl;
-
-class Curl {
+class curl {
 
 	public $connection_list;
 	public $job_list;
@@ -26,7 +18,12 @@ class Curl {
 		$this->mc = curl_multi_init();
 	}
 
-	public function run($request, $callback = null) {
+	/**
+	 * @param curl_request $request
+	 * @param null $callback
+	 * @return curl_response
+	 */
+	public function run(curl_request $request, $callback = null) {
 		$c = curl_init();
 
 		foreach($request->get_options() as $key => $value) {
@@ -38,7 +35,7 @@ class Curl {
 			$this->job_list[] = array('request' => $request, 'handle' => $c, 'callback' => $callback);
 		} // nope, no asio for us today
 		else {
-			$r = new CurlResponse();
+			$r = new \mahlstrom\curl\curl_response();
 
 			$header_list = array();
 
@@ -67,7 +64,7 @@ class Curl {
 
 			$r->request = $request;
 			$r->info = curl_getinfo($c);
-			$r->status_code = $r->info['http_code'];
+			$r->status_code = curl_getinfo($c, CURLINFO_HTTP_CODE);
 
 			curl_close($c);
 
@@ -86,7 +83,7 @@ class Curl {
 			$job = array_shift($this->job_list);
 
 			$host = $job['request']->get_option(CURLOPT_URL);
-
+			var_dump($host);
 			if(!$host) {
 				return $job['callback'](null);
 			}
@@ -99,6 +96,7 @@ class Curl {
 
 			// check if the domain is bad and will block multicurl
 			if(!$this->is_host_active($host)) {
+				var_dump('wtf');
 				if($job['callback'] != null) {
 					if(phpversion() >= 5.3) {
 						$job['callback'](null);
@@ -142,7 +140,7 @@ class Curl {
 
 			unset($this->connection_list[$handle]);
 
-			$response = new CurlResponse();
+			$response = new \mahlstrom\curl\curl_response();
 			$response->request = $connection['request'];
 			$response->data = $data;
 			$response->info = $info;

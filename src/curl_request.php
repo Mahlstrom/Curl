@@ -1,15 +1,11 @@
 <?php
 /**
- * @authors Jordan Hall <nukezilla@hotmail.co.uk> & JokerHacker
- * @Acknowledge S.C. Chen <http://sourceforge.net/projects/simplehtmldom/>
- * @Contributions Bennett Treptow <Upload class>
- * @version 0.1
- * @copyright 2012 SimplexPHP
+ * @author Magnus Ahlstrom <magnus@atuin.se>
+ * @time 2014-06-28 23:04
  */
+namespace mahlstrom\curl;
 
-namespace mahlstrom\Curl;
-
-class CurlRequest {
+class curl_request {
 
 	public $options;
 
@@ -32,6 +28,16 @@ class CurlRequest {
 		$this->options[CURLOPT_TIMEOUT] = 15;
 		$this->options[CURLOPT_CUSTOMREQUEST] = 'GET';
 		$this->options[CURLOPT_MAXREDIRS] = 4;
+		$this->options[CURLOPT_COOKIEJAR] = 'cookie2.txt';
+		$this->options[CURLOPT_COOKIEFILE] = 'cookie2.txt';
+	}
+
+	public function set_url($url) {
+		$this->options[CURLOPT_URL] = $url;
+
+		if(strpos($url, 'https') === 0) {
+			$this->options[CURLOPT_SSL_VERIFYPEER] = false;
+		}
 	}
 
 	public function set_timeout($timeout) {
@@ -59,14 +65,6 @@ class CurlRequest {
 
 	public function get_options() {
 		return $this->options;
-	}
-
-	public function set_url($url) {
-		$this->options[CURLOPT_URL] = $url;
-
-		if(strpos($url, 'https') === 0) {
-			$this->options[CURLOPT_SSL_VERIFYPEER] = false;
-		}
 	}
 
 	public function set_referer($url) {

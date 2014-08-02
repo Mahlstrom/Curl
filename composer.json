@@ -19,7 +19,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"mahlstrom\\Curl\\": "src"
+			"mahlstrom\\curl\\": "src"
 		}
 	}
 }
