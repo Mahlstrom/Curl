@@ -1,4 +1,7 @@
 {
+	"name": "mahlstrom/Curl",
+	"description": "cURL library from other",
+	"license": "MIT",
 	"authors": [
 		{
 			"name": "Jordan Hall",
