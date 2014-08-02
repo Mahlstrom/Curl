@@ -1,0 +1,22 @@
+{
+	"authors": [
+		{
+			"name": "Jordan Hall",
+			"email": "nukezilla@hotmail.co.uk",
+			"role": "Developer"
+		},
+		{
+			"name": "Magnus Ahlström",
+			"email": "magnus@atuin.se",
+			"role": "Packagister"
+		}
+	],
+	"require": {
+		"php": ">=5.0.0",
+	},
+	"autoload": {
+		"psr-4": {
+			"mahlstrom\\Curl\\": "src"
+		}
+	}
+}
