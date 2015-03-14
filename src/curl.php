@@ -36,38 +36,13 @@ class curl {
 		} // nope, no asio for us today
 		else {
 			$r = new \mahlstrom\curl\curl_response();
-
-			$header_list = array();
-
-			/*if(phpversion() >= 5.3)
-			curl_setopt($c, CURLOPT_HEADERFUNCTION, function($c, $header) use(&$r)
-			{
-				sleep(1000);
-
-				if(strstr($header, ":"))
-				{
-					$h = explode(":", $header);
-
-					$key = $h[0];
-
-					array_shift($h);
-
-					$r->header_list[$key] = implode(":", $h);
-				}
-
-				return strlen($header);
-			});*/
-
 			ob_start();
 			$r->data = curl_exec($c);
 			ob_end_clean();
-
 			$r->request = $request;
 			$r->info = curl_getinfo($c);
 			$r->status_code = curl_getinfo($c, CURLINFO_HTTP_CODE);
-
 			curl_close($c);
-
 			return $r;
 		}
 
